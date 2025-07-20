@@ -12,6 +12,7 @@ export interface IAuthState {
     user: null | IUser;
     token: null | string;
 }
+
 const initialState: IAuthState = {
     user: null,
     token: null,

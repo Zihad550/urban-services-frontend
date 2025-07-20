@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 import {
   FLUSH,
   PAUSE,
@@ -8,20 +8,22 @@ import {
   PURGE,
   REGISTER,
   REHYDRATE,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { baseApi } from './api/baseApi';
-import authReducer from './features/auth/authSlice';
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { baseApi } from "./api/baseApi";
+import authReducer from "./features/auth/authSlice";
 
+// Persist configuration for auth slice
 const persistConfigAuth = {
-  key: 'auth',
+  key: "auth",
   version: 1,
   storage,
+  whitelist: ["user", "token"], // Only persist these fields
 };
-;
 
 const persistedAuthReducer = persistReducer(persistConfigAuth, authReducer);
 
+// Configure the store
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
@@ -33,12 +35,12 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(baseApi.middleware),
+  devTools: import.meta.env.DEV,
 });
 
+// Create persistor for redux-persist
 export const persistor = persistStore(store);
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// Infer types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
-
