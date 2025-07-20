@@ -1,6 +1,5 @@
 onlyBuiltDependencies:
-  - '@fortawesome/fontawesome-common-types'
-  - '@fortawesome/fontawesome-svg-core'
-  - core-js
-  - core-js-pure
+  - '@firebase/util'
+  - '@tailwindcss/oxide'
+  - esbuild
   - protobufjs
