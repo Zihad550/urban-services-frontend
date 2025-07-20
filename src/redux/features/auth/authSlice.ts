@@ -172,7 +172,7 @@ export const fetchUserProfile = createAsyncThunk<
             const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/${email}`, {
                 headers: {
                     'content-type': 'application/json',
-                    authorization: `Bearer ${localStorage.getItem('idToken')}`
+                    authorization: localStorage.getItem('idToken') || ''
                 }
             });
 

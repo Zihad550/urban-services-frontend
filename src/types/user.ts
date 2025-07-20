@@ -7,7 +7,7 @@ import type {
 } from './common';
 
 // Re-export common types for convenience
-export type { UserRole } from './common';
+export type { UserRole, WorkingStatus } from './common';
 
 // Base user interface
 export interface BaseUser extends WithTimestamps {
@@ -106,6 +106,9 @@ export type User = Customer | Worker | Admin;
 export type CreateCustomerInput = Omit<Customer, 'id' | 'createdAt' | 'updatedAt' | 'bookingHistory' | 'totalBookings'>;
 export type CreateWorkerInput = Omit<Worker, 'id' | 'createdAt' | 'updatedAt' | 'rating' | 'totalRatings' | 'completedJobs'>;
 export type CreateAdminInput = Omit<Admin, 'id' | 'createdAt' | 'updatedAt' | 'lastLoginAt'>;
+
+// Generic user creation input (union of all user creation types)
+export type CreateUserInput = CreateCustomerInput | CreateWorkerInput | CreateAdminInput;
 
 export type UpdateUserInput = Partial<Omit<User, 'id' | 'role' | 'createdAt' | 'updatedAt'>>;
 

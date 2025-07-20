@@ -5,7 +5,7 @@ import { useAuthListener } from './hooks/useAuthListener';
 function App() {
   // Initialize auth listener to sync Firebase auth state with Redux
   useAuthListener();
-  
+
   // Get auth state from Redux
   const { user, isAuthenticated, isLoading, error } = useAuth();
 
@@ -26,7 +26,7 @@ function App() {
           </h1>
         </div>
       </header>
-      
+
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           {error && (
@@ -34,7 +34,7 @@ function App() {
               {error}
             </div>
           )}
-          
+
           {isAuthenticated && user ? (
             <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
               <h2 className="text-lg font-semibold">Welcome, {user.displayName || user.email}!</h2>
