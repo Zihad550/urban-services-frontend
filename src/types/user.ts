@@ -6,6 +6,9 @@ import type {
     WorkingStatus
 } from './common';
 
+// Re-export common types for convenience
+export type { UserRole } from './common';
+
 // Base user interface
 export interface BaseUser extends WithTimestamps {
     id: ID;
@@ -110,8 +113,8 @@ export type UpdateUserInput = Partial<Omit<User, 'id' | 'role' | 'createdAt' | '
 export interface AuthUser {
     uid: string;
     email: string;
-    displayName?: string;
-    photoURL?: string;
+    displayName?: string | undefined;
+    photoURL?: string | undefined;
     emailVerified: boolean;
 }
 
