@@ -1,28 +1,29 @@
 import { Button } from '@/components/ui/button';
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
+import React, { Component } from 'react';
 
 interface ErrorBoundaryProps {
     children: ReactNode;
-    fallback?: React.ComponentType<{ error?: Error; resetError?: () => void }>;
+    fallback?: React.ComponentType<{ error: Error | null; resetError?: () => void }>;
 }
 
 interface ErrorBoundaryState {
     hasError: boolean;
-    error?: Error;
-    errorInfo?: ErrorInfo;
+    error: Error | null;
+    errorInfo: ErrorInfo | null;
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
-        this.state = { hasError: false };
+        this.state = { hasError: false, error: null, errorInfo: null };
     }
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-        return { hasError: true, error };
+        return { hasError: true, error, errorInfo: null };
     }
 
-    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         this.setState({ errorInfo });
 
         // Log error to console in development
@@ -49,10 +50,10 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     };
 
     private resetError = () => {
-        this.setState({ hasError: false, error: undefined, errorInfo: undefined });
+        this.setState({ hasError: false, error: null, errorInfo: null });
     };
 
-    render() {
+    override render() {
         if (this.state.hasError) {
             const FallbackComponent = this.props.fallback || DefaultErrorFallback;
             return (
@@ -68,7 +69,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 }
 
 interface ErrorFallbackProps {
-    error?: Error;
+    error: Error | null;
     resetError?: () => void;
 }
 

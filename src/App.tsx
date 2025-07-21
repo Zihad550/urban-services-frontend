@@ -1,56 +1,58 @@
+import { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router';
 import './App.css';
-import { useAuth } from './hooks/useAuth';
+import { ErrorBoundary } from './components/shared/ErrorBoundary';
+import { LoadingSpinner } from './components/shared/LoadingSpinner';
 import { useAuthListener } from './hooks/useAuthListener';
+import { selectIsLoading } from './redux/features/auth/authSlice';
+import { useAppSelector } from './redux/hooks';
+import { store } from './redux/store';
+import { router } from './router';
 
-function App() {
+// Loading component for initial app load
+const AppLoadingScreen: React.FC = () => {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <LoadingSpinner size="lg" />
+        <p className="mt-4 text-sm text-gray-600">Loading Urban Services Platform...</p>
+      </div>
+    </div>
+  );
+};
+
+// Auth initialization component that runs inside Redux provider
+const AuthInitializer: React.FC = () => {
+  const isAuthLoading = useAppSelector(selectIsLoading);
+
   // Initialize auth listener to sync Firebase auth state with Redux
   useAuthListener();
 
-  // Get auth state from Redux
-  const { user, isAuthenticated, isLoading, error } = useAuth();
+  // Global app initialization logic
+  useEffect(() => {
+    // Global app setup (analytics, error reporting, etc.)
+    console.log('Urban Services Platform initialized');
+  }, []);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading...</div>
-      </div>
-    );
+  // Show loading screen while authentication is being initialized
+  if (isAuthLoading) {
+    return <AppLoadingScreen />;
   }
 
+  return <RouterProvider router={router} />;
+};
+
+function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Urban Services Platform
-          </h1>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <div className="app">
+          <AuthInitializer />
         </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
-            </div>
-          )}
-
-          {isAuthenticated && user ? (
-            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-              <h2 className="text-lg font-semibold">Welcome, {user.displayName || user.email}!</h2>
-              <p>Role: {user.role}</p>
-              <p>Authentication system is working correctly.</p>
-            </div>
-          ) : (
-            <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
-              <h2 className="text-lg font-semibold">Authentication System Ready</h2>
-              <p>User is not authenticated. The Redux auth slice is properly configured.</p>
-            </div>
-          )}
-        </div>
-      </main>
-    </div>
+      </Provider>
+    </ErrorBoundary>
   );
 }
 
-export default App
+export default App;

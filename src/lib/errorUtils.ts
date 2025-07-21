@@ -1,7 +1,7 @@
 import { toast } from 'sonner';
 
 export interface ApiError {
-    status?: number;
+    status?: number | string;
     data?: {
         message?: string;
         errors?: Record<string, string[]>;
