@@ -56,14 +56,14 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     const getDashboardRoute = (role: string) => {
         switch (role) {
             case 'admin':
-                return '/adminDashboard';
+                return '/dashboard/admin';
             case 'worker':
-                return '/workerDashboard';
+                return '/dashboard/worker';
             case 'customer':
             case 'user':
-                return '/userDashboard';
+                return '/dashboard/user';
             default:
-                return '/userDashboard';
+                return '/dashboard/user';
         }
     };
 
