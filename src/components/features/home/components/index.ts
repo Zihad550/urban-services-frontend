@@ -1,1 +1,9 @@
 export { HomePage } from './HomePage';
+export { HomeBanner } from './HomeBanner';
+export { HomeService } from './HomeService';
+export { HomeServices } from './HomeServices';
+export { WhyChooseUs } from './WhyChooseUs';
+export { Partners } from './Partners';
+export { Feedback } from './Feedback';
+export { FeedbackSection } from './FeedbackSection';
+export { Newsletter } from './Newsletter';
