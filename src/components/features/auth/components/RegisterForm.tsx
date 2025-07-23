@@ -136,9 +136,14 @@ export const RegisterForm: React.FC = () => {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="w-full max-w-md mx-auto space-y-6">
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" aria-label="Registration form">
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-4 sm:space-y-5"
+                    aria-label="Registration form"
+                    noValidate
+                >
                     <FormField
                         control={form.control}
                         name="displayName"
@@ -200,10 +205,11 @@ export const RegisterForm: React.FC = () => {
                                         />
                                         <button
                                             type="button"
-                                            className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                                            className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 rounded-full transition-colors duration-200"
                                             onClick={() => setShowPassword(!showPassword)}
                                             disabled={isSubmitting || isLoading}
                                             aria-label={showPassword ? "Hide password" : "Show password"}
+                                            aria-pressed={showPassword}
                                         >
                                             {showPassword ? (
                                                 <EyeOffIcon className="h-4 w-4" />
@@ -240,10 +246,11 @@ export const RegisterForm: React.FC = () => {
                                         />
                                         <button
                                             type="button"
-                                            className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                                            className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 rounded-full transition-colors duration-200"
                                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                             disabled={isSubmitting || isLoading}
                                             aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                                            aria-pressed={showConfirmPassword}
                                         >
                                             {showConfirmPassword ? (
                                                 <EyeOffIcon className="h-4 w-4" />
@@ -310,7 +317,11 @@ export const RegisterForm: React.FC = () => {
                     />
 
                     {error && (
-                        <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md border border-red-200">
+                        <div
+                            className="text-sm text-destructive bg-destructive/10 p-3 rounded-md border border-destructive/20"
+                            role="alert"
+                            aria-live="polite"
+                        >
                             {error}
                         </div>
                     )}
@@ -334,10 +345,10 @@ export const RegisterForm: React.FC = () => {
 
             <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300" />
+                    <div className="w-full border-t border-border" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                    <span className="px-2 bg-background text-muted-foreground">Or continue with</span>
                 </div>
             </div>
 

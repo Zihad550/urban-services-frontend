@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 interface FooterLink {
     id: number;
@@ -164,15 +165,20 @@ export const Footer: React.FC<FooterProps> = ({
     copyrightYear = new Date().getFullYear()
 }) => {
     return (
-        <div className={`bg-gray-100 dark:bg-gray-900 ${className}`}>
-            <footer className="container mx-auto p-10">
+        <div className={cn("bg-card dark:bg-gray-900", className)}>
+            <footer className="container mx-auto p-4 sm:p-6 lg:p-10" role="contentinfo" aria-label="Site footer">
+                {/* Skip to main content link for keyboard users */}
+                <a href="#main-content" className="skip-link">
+                    Skip to main content
+                </a>
+
                 <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
                     {/* Company Info Section */}
                     <div className="mb-6 flex flex-col items-center md:mb-0 lg:items-start lg:justify-start">
-                        <span className="whitespace-nowrap text-2xl font-semibold text-gray-900 dark:text-white">
+                        <span className="whitespace-nowrap text-xl sm:text-2xl font-semibold text-foreground">
                             {companyName}
                         </span>
-                        <p className="w-3/4 text-gray-600 dark:text-gray-400">
+                        <p className="w-full sm:w-3/4 text-center lg:text-left text-muted-foreground mt-2">
                             {description}
                         </p>
                     </div>
@@ -180,18 +186,21 @@ export const Footer: React.FC<FooterProps> = ({
                     {/* Links Section */}
                     <div className="grid grid-cols-1 gap-8 text-center sm:grid-cols-2 md:grid-cols-3 md:text-left sm:gap-6">
                         {sections.map((section) => (
-                            <div key={section.title}>
-                                <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
+                            <div key={section.title} className="mb-6 sm:mb-0">
+                                <h2 className="mb-4 sm:mb-6 text-sm font-semibold uppercase text-foreground">
                                     {section.title}
                                 </h2>
-                                <ul className="text-gray-600 dark:text-gray-400">
+                                <ul className="text-muted-foreground space-y-3">
                                     {section.links.map((link) => (
-                                        <li key={link.id} className="mb-2">
+                                        <li key={link.id}>
                                             <a
                                                 href={link.href}
-                                                className="hover:underline"
+                                                className="hover:underline hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm px-1 py-0.5 transition-colors duration-200"
+                                                target={link.external ? "_blank" : undefined}
+                                                rel={link.external ? "noopener noreferrer" : undefined}
                                             >
                                                 {link.text}
+                                                {link.external && <span className="sr-only"> (opens in a new tab)</span>}
                                             </a>
                                         </li>
                                     ))}
@@ -202,16 +211,16 @@ export const Footer: React.FC<FooterProps> = ({
                 </div>
 
                 {/* Divider */}
-                <hr className="my-8 border-gray-200 dark:border-gray-700" />
+                <hr className="my-6 sm:my-8 border-border" />
 
                 {/* Bottom Section */}
                 <div className="flex flex-col-reverse items-center justify-between gap-4 sm:flex-row sm:gap-0">
                     {/* Copyright */}
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="text-sm text-muted-foreground text-center sm:text-left">
                         © {copyrightYear}{' '}
                         <a
                             href="#"
-                            className="hover:underline"
+                            className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm px-1 py-0.5"
                         >
                             {companyName}™
                         </a>
@@ -219,13 +228,15 @@ export const Footer: React.FC<FooterProps> = ({
                     </p>
 
                     {/* Social Links */}
-                    <div className="flex space-x-6">
+                    <div className="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6">
                         {socialLinks.map((social) => (
                             <a
                                 key={social.name}
                                 href={social.href}
-                                className="text-gray-500 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                                className="text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-full p-1"
                                 aria-label={social.ariaLabel}
+                                target={social.external ? "_blank" : undefined}
+                                rel={social.external ? "noopener noreferrer" : undefined}
                             >
                                 <span className="sr-only">{social.name}</span>
                                 {social.icon}

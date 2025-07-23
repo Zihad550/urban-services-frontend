@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router';
 import './App.css';
 import { ErrorBoundary } from './components/shared/ErrorBoundary';
 import { LoadingSpinner } from './components/shared/LoadingSpinner';
+import { ThemeProvider } from './components/ui/theme-provider';
 import { useAuthListener } from './hooks/useAuthListener';
 import { selectIsLoading } from './redux/features/auth/authSlice';
 import { useAppSelector } from './redux/hooks';
@@ -13,10 +14,10 @@ import { router } from './router';
 // Loading component for initial app load
 const AppLoadingScreen: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-background">
       <div className="text-center">
         <LoadingSpinner size="lg" />
-        <p className="mt-4 text-sm text-gray-600">Loading Urban Services Platform...</p>
+        <p className="mt-4 text-sm text-muted-foreground">Loading Urban Services Platform...</p>
       </div>
     </div>
   );
@@ -46,11 +47,28 @@ const AuthInitializer: React.FC = () => {
 function App() {
   return (
     <ErrorBoundary>
-      <Provider store={store}>
-        <div className="app">
-          <AuthInitializer />
-        </div>
-      </Provider>
+      <ThemeProvider defaultTheme="system" storageKey="urban-services-theme">
+        <Provider store={store}>
+          {/* Skip to main content link for keyboard users */}
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
+
+          <div className="app min-h-screen bg-background text-foreground antialiased">
+            <AuthInitializer />
+
+            {/* Accessibility announcement region for screen readers */}
+            <div
+              aria-live="polite"
+              aria-atomic="true"
+              className="sr-only"
+              id="announcer"
+            >
+              {/* Dynamic announcements will be inserted here */}
+            </div>
+          </div>
+        </Provider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }

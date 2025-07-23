@@ -1,6 +1,12 @@
 import type { RouteObject } from 'react-router';
 import { createBrowserRouter } from 'react-router';
 import { HomePage } from '../components/features/home';
+import {
+    WorkerDashboardHome,
+    CurrentWorks,
+    AllWorks,
+    WorkRequest
+} from '../components/features/dashboard/components/WorkerDashboard';
 import { AdminDashboard } from './components/AdminDashboard';
 import { AdminRoute } from './components/AdminRoute';
 import { ErrorPage } from './components/ErrorPage';
@@ -71,6 +77,24 @@ const routes: RouteObject[] = [
                             </WorkerRoute>
                         ),
                         loader: workerDashboardLoader,
+                        children: [
+                            {
+                                index: true,
+                                element: <WorkerDashboardHome />,
+                            },
+                            {
+                                path: 'current-works',
+                                element: <CurrentWorks />,
+                            },
+                            {
+                                path: 'all-works',
+                                element: <AllWorks />,
+                            },
+                            {
+                                path: 'work-requests',
+                                element: <WorkRequest />,
+                            },
+                        ],
                     },
                 ],
             },
